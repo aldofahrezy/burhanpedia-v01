@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pilih Mode Editor</title>
+    <style>
+        /* ... (CSS untuk membuat tampilan bagus) ... */
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; gap: 3em; }
+        a { text-decoration: none; color: white; background-color: #007bff; padding: 2em; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <a href="{% url 'quick_mode' %}">
+        <h2>Mode Cepat</h2>
+        <p>Langsung jadi tanpa preview.</p>
+    </a>
+    <a href="{% url 'creative_mode' %}">
+        <h2>Mode Kreasi</h2>
+        <p>Geser logo dan teks sesukamu.</p>
+    </a>
+</body>
+</html>

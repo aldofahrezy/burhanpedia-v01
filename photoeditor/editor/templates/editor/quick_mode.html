@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Visual Photo Editor</title>
+    <style>
+        body { font-family: sans-serif; display: flex; gap: 2em; padding: 2em; }
+        .controls { max-width: 350px; }
+        #editor-container {
+            position: relative;
+            width: 800px; /* Lebar area editor */
+            height: 800px; /* Tinggi area editor */
+            border: 2px dashed #ccc;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .draggable {
+            position: absolute;
+            cursor: grab;
+            border: 1px dotted #007bff;
+        }
+        .draggable:active { cursor: grabbing; }
+        #logo-wrapper img { max-width: 150px; }
+        #text-wrapper { padding: 5px; }
+        .result { margin-top: 2em; }
+        .result img { max-width: 100%; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <h1>Mode Kreasi</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <button type="submit">Proses & Download Gambar</button>
+        </form>
+
+        {% if result_image %}
+        <div class="result">
+            <h2>Hasil Final:</h2>
+            <img src="data:image/jpeg;base64,{{ result_image }}" alt="Hasil editan gambar">
+            <br><br>
+            <a href="data:image/jpeg;base64,{{ result_image }}" download="hasil-kreasi.jpg" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+                Download
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div id="editor-container">
+        <div id="logo-wrapper" class="draggable"><img id="logo-preview" src="" alt=""></div>
+        <div id="text-wrapper" class="draggable">Sample Text</div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+
+    <script>
+        // ... (Salin seluruh kode JavaScript dari jawaban optimasi sebelumnya ke sini) ...
+        // Ambil elemen-elemen penting
+        const baseImageInput = document.getElementById('base_image_input');
+        const logoImageInput = document.getElementById('logo_image_input');
+        const textInput = document.getElementById('text_input');
+        const fontSizeInput = document.getElementById('font_size_input');
+        
+        const editorContainer = document.getElementById('editor-container');
+        const logoWrapper = document.getElementById('logo-wrapper');
+        const textWrapper = document.getElementById('text-wrapper');
+        const logoPreview = document.getElementById('logo-preview');
+
+        // Ambil input field yang tersembunyi
+        const textXInput = document.getElementById('text_x_input');
+        const textYInput = document.getElementById('text_y_input');
+        const logoXInput = document.getElementById('logo_x_input');
+        const logoYInput = document.getElementById('logo_y_input');
+        const logoWInput = document.getElementById('logo_w_input');
+        const logoHInput = document.getElementById('logo_h_input');
+
+        // Variabel untuk menyimpan data skala
+        let scaleX = 1;
+        let scaleY = 1;
+
+        // 1. Tampilkan preview gambar utama & hitung faktor skala
+        baseImageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const editorWidth = editorContainer.clientWidth;
+                        const editorHeight = editorContainer.clientHeight;
+                        const editorRatio = editorWidth / editorHeight;
+                        const imgRatio = img.naturalWidth / img.naturalHeight;
+                        
+                        let renderedWidth, renderedHeight;
+                        if (editorRatio > imgRatio) {
+                            renderedHeight = editorHeight;
+                            renderedWidth = renderedHeight * imgRatio;
+                        } else {
+                            renderedWidth = editorWidth;
+                            renderedHeight = renderedWidth / imgRatio;
+                        }
+                        
+                        scaleX = img.naturalWidth / renderedWidth;
+                        scaleY = img.naturalHeight / renderedHeight;
+                    };
+                    img.src = e.target.result;
+                    editorContainer.style.backgroundImage = `url(${e.target.result})`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 2. Tampilkan preview logo
+        logoImageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                logoPreview.src = URL.createObjectURL(file);
+                logoWrapper.style.display = 'block';
+            }
+        });
+        
+        // 3. Update teks dan ukuran font secara real-time
+        textInput.addEventListener('input', (event) => { textWrapper.textContent = event.target.value; });
+        fontSizeInput.addEventListener('input', (event) => { textWrapper.style.fontSize = `${event.target.value}px`; });
+
+
+        // 4. Buat elemen bisa di-drag dan update koordinat DENGAN FAKTOR SKALA
+        Draggable.create("#text-wrapper", {
+            bounds: "#editor-container",
+            onDragEnd: function() {
+                textXInput.value = Math.round(this.x * scaleX);
+                textYInput.value = Math.round(this.y * scaleY);
+            }
+        });
+        
+        Draggable.create("#logo-wrapper", {
+            bounds: "#editor-container",
+            onDragEnd: function() {
+                const logoRect = this.target.getBoundingClientRect();
+                logoXInput.value = Math.round(this.x * scaleX);
+                logoYInput.value = Math.round(this.y * scaleY);
+                logoWInput.value = Math.round(logoRect.width * scaleX);
+                logoHInput.value = Math.round(logoRect.height * scaleY);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# editor/urls.py (buat file baru ini)
+# editor/urls.py
+# editor/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index_view, name='index'),
+    path('create/', views.creative_mode_view, name='creative_mode'),
+    path('quick/', views.quick_mode_view, name='quick_mode'),
+    
+    # --- TAMBAHKAN URL INI UNTUK AJAX ---
+    path('ajax/generate-preview/', views.generate_preview_ajax, name='ajax_generate_preview'),
+]
