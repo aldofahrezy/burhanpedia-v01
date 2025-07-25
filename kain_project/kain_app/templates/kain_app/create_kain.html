@@ -1,4 +1,3 @@
-<!-- kain_app/templates/kain_app/create_kain.html -->
 {% extends 'kain_app/base.html' %}
 
 {% block title %}Generator Desain Batik AI{% endblock %}
@@ -7,7 +6,6 @@
     <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Generator Desain Batik AI</h1>
     <p class="text-gray-600 mb-6">Ciptakan desain batik unik Anda sendiri dengan bantuan AI.</p>
 
-    <!-- Tampilkan pesan error jika ada -->
     {% if error_message %}
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
             <strong class="font-bold">Error!</strong>
@@ -15,12 +13,10 @@
         </div>
     {% endif %}
 
-    <!-- Form untuk input preferensi -->
     <form action="{% url 'kain_app:create_kain' %}" method="post" class="mb-8">
         {% csrf_token %}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Dropdown Pilihan Batik -->
-            <div class="mb-4">
+        <div class="grid grid-cols-1 gap-6"> {# Changed to single column grid #}
+            <div class="">
                 <label for="batik" class="block text-gray-700 text-sm font-bold mb-2">Pilih Inspirasi Motif Batik:</label>
                 <select name="batik" id="batik" required class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     {% for option in batik_options %}
@@ -29,8 +25,7 @@
                 </select>
             </div>
             
-            <!-- Dropdown Pilihan Warna -->
-            <div class="mb-4">
+            <div class="">
                 <label for="warna" class="block text-gray-700 text-sm font-bold mb-2">Pilih Palet Warna:</label>
                 <select name="warna" id="warna" required class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     {% for option in warna_options %}
@@ -38,28 +33,35 @@
                     {% endfor %}
                 </select>
             </div>
+
+            {# New dropdown for Mockup #}
+            <div class="mb-4">
+                <label for="mockup" class="block text-gray-700 text-sm font-bold mb-2">Pilih Mockup:</label>
+                <select name="mockup" id="mockup" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="kain">Kain</option>
+                    <option value="baju">Baju</option>
+                    <option value="celana">Celana</option>
+                </select>
+            </div>
         </div>
 
-        <!-- Input untuk bentuk campuran -->
         <div class="mb-6">
             <label for="bentuk_campuran" class="block text-gray-700 text-sm font-bold mb-2">Tambahkan Bentuk/Elemen Campuran:</label>
             <input type="text" name="bentuk_campuran" id="bentuk_campuran" required placeholder="Contoh: bunga lotus, bentuk geometris, sulur tanaman" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
         </div>
         
-        <!-- Tombol Submit dan Kembali -->
-        <div class="flex items-center justify-between">
-            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
+        <div class="flex flex-col items-center gap-4"> {# Changed to flex-col for vertical stacking #}
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
                 ✨ Hasilkan Gambar
             </button>
-            <a href="{% url 'kain_app:index' %}" class="inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800">
+            <a href="{% url 'kain_app:index' %}" class="w-full text-center inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800 py-2"> {# Added w-full and text-center for full width and centering #}
                 Kembali ke Menu
             </a>
         </div>
     </form>
 
-    <!-- Bagian untuk menampilkan hasil gambar -->
     {% if image_url %}
-        <div class="border-t pt-8 mt-8">
+        <div class="border-t pt-8 mt-8 overflow-hidden"> {# Added overflow-hidden here #}
             <h2 class="text-2xl font-bold text-gray-900 mb-4">Hasil Desain Anda</h2>
             <div class="bg-gray-200 p-4 rounded-lg shadow-inner">
                 <img src="{{ image_url }}" alt="Generated Batik Design" class="rounded-lg shadow-lg w-full max-w-lg mx-auto">

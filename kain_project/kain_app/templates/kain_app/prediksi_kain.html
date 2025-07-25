@@ -1,88 +1,86 @@
-<!-- kain_app/templates/kain_app/prediksi_kain.html -->
 {% extends 'kain_app/base.html' %}
 
 {% block title %}Analisis Kain AI{% endblock %}
 
 {% block content %}
-    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Analisis Kain dengan AI Vision</h1>
-    <p class="text-gray-600 mb-6">Unggah gambar kain (batik, tenun, dll.) untuk mengetahui informasi mendalam tentangnya.</p>
+<div class="max-w-sm mx-auto px-2 py-4">
+    <h1 class="text-lg font-bold text-gray-900 mb-2 text-center">Analisis Kain dengan AI Vision</h1>
+    <p class="text-gray-600 mb-4 text-center text-sm">Unggah gambar kain (batik, tenun, dll.) untuk mengetahui informasi mendalam tentangnya.</p>
     
     <!-- Form Upload -->
     <form id="upload-form" action="{% url 'kain_app:prediksi_kain' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="bg-gray-50 p-4 rounded-lg border-2 border-dashed border-gray-300">
-            <label for="gambar_kain" class="block text-gray-700 text-sm font-bold mb-2">Pilih File Gambar:</label>
-            <input type="file" name="gambar_kain" id="gambar_kain" accept="image/*" required class="block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-4
+        <div class="bg-gray-50 p-2 rounded-lg border-2 border-dashed border-gray-300 mb-4">
+            <label for="gambar_kain" class="block text-gray-700 text-xs font-bold mb-2">Pilih File Gambar:</label>
+            <input type="file" name="gambar_kain" id="gambar_kain" accept="image/*" required class="block w-full text-xs text-gray-500
+                file:mr-2 file:py-1 file:px-2
                 file:rounded-full file:border-0
-                file:text-sm file:font-semibold
+                file:text-xs file:font-semibold
                 file:bg-indigo-50 file:text-indigo-700
                 hover:file:bg-indigo-100
             ">
         </div>
         
-        <div class="flex items-center justify-between mt-6">
-            <button type="submit" id="submit-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
+        <div class="flex flex-col gap-2 mt-4">
+            <button type="submit" id="submit-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 text-sm w-full">
                 🔍 Analisis Gambar
             </button>
-            <a href="{% url 'kain_app:index' %}" class="inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800">
+            <a href="{% url 'kain_app:index' %}" class="font-bold text-xs text-blue-600 hover:text-blue-800 text-center">
                 Kembali ke Menu
             </a>
         </div>
     </form>
 
     <!-- Loading Spinner (hidden by default) -->
-    <div id="loading-spinner" class="text-center my-8 hidden">
-        <svg class="animate-spin -ml-1 mr-3 h-10 w-10 text-indigo-600 mx-auto" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24">
+    <div id="loading-spinner" class="text-center my-6 hidden">
+        <svg class="animate-spin h-8 w-8 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        <p class="mt-2 text-gray-600 font-semibold">Menganalisis gambar... Proses ini mungkin memerlukan beberapa saat.</p>
+        <p class="mt-2 text-gray-600 font-semibold text-xs">Menganalisis gambar... Proses ini mungkin memerlukan beberapa saat.</p>
     </div>
 
     <!-- Container untuk Hasil Analisis -->
-    <div id="result-container" class="mt-8 border-t pt-8">
-        <!-- Tampilkan pesan error jika ada -->
+    <div id="result-container" class="mt-6 border-t pt-6">
         {% if error_message %}
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+            <div class="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded relative mb-4 text-xs" role="alert">
                 <strong class="font-bold">Error!</strong>
                 <span class="block sm:inline">{{ error_message }}</span>
             </div>
         {% endif %}
 
-        <!-- Tampilkan hasil jika ada -->
         {% if analysis_result %}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div class="flex flex-col gap-4 items-start">
                 <!-- Kolom Gambar yang diupload -->
                 <div class="w-full">
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Gambar Anda:</h3>
-                    <img src="{{ uploaded_image }}" alt="Uploaded Fabric" class="rounded-lg shadow-lg w-full">
+                    <h3 class="text-base font-bold text-gray-800 mb-2">Gambar Anda:</h3>
+                    <img src="{{ uploaded_image }}" alt="Uploaded Fabric" class="rounded-lg shadow-lg w-full max-h-48 object-cover">
                 </div>
 
                 <!-- Kolom Hasil Analisis -->
                 <div class="w-full">
                     {% if analysis_result.is_kain %}
-                        <h2 class="text-2xl font-bold text-indigo-700 mb-4">{{ analysis_result.pattern_name }}</h2>
-                        <div class="space-y-5">
+                        <h2 class="text-lg font-bold text-indigo-700 mb-2">{{ analysis_result.pattern_name }}</h2>
+                        <div class="space-y-3">
                             <div>
-                                <h4 class="font-bold text-gray-800 text-lg flex items-center"><span class="mr-2">🌍</span> Asal-usul:</h4>
-                                <p class="text-gray-600 mt-1 pl-1">{{ analysis_result.analysis.origin }}</p>
+                                <h4 class="font-bold text-gray-800 text-sm flex items-center"><span class="mr-1">🌍</span> Asal-usul:</h4>
+                                <p class="text-gray-600 mt-1 pl-1 text-xs">{{ analysis_result.analysis.origin }}</p>
                             </div>
                             <div>
-                                <h4 class="font-bold text-gray-800 text-lg flex items-center"><span class="mr-2">🎨</span> Warna & Makna:</h4>
-                                <p class="text-gray-600 mt-1 pl-1">{{ analysis_result.analysis.colors }}</p>
+                                <h4 class="font-bold text-gray-800 text-sm flex items-center"><span class="mr-1">🎨</span> Warna & Makna:</h4>
+                                <p class="text-gray-600 mt-1 pl-1 text-xs">{{ analysis_result.analysis.colors }}</p>
                             </div>
                             <div>
-                                <h4 class="font-bold text-gray-800 text-lg flex items-center"><span class="mr-2">💡</span> Filosofi:</h4>
-                                <p class="text-gray-600 mt-1 pl-1">{{ analysis_result.analysis.philosophy }}</p>
+                                <h4 class="font-bold text-gray-800 text-sm flex items-center"><span class="mr-1">💡</span> Filosofi:</h4>
+                                <p class="text-gray-600 mt-1 pl-1 text-xs">{{ analysis_result.analysis.philosophy }}</p>
                             </div>
                             <div>
-                                <h4 class="font-bold text-gray-800 text-lg flex items-center"><span class="mr-2">📜</span> Cerita di Baliknya:</h4>
-                                <p class="text-gray-600 mt-1 pl-1">{{ analysis_result.analysis.story }}</p>
+                                <h4 class="font-bold text-gray-800 text-sm flex items-center"><span class="mr-1">📜</span> Cerita di Baliknya:</h4>
+                                <p class="text-gray-600 mt-1 pl-1 text-xs">{{ analysis_result.analysis.story }}</p>
                             </div>
                         </div>
                     {% else %}
-                        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
+                        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-2 text-xs" role="alert">
                             <p class="font-bold">Perhatian</p>
                             <p>Gambar yang Anda unggah terdeteksi sebagai <strong>bukan kain atau tekstil berpola</strong>, sehingga tidak dapat dianalisis lebih lanjut oleh AI.</p>
                         </div>
@@ -91,29 +89,24 @@
             </div>
         {% endif %}
     </div>
+</div>
 
-    <script>
-        // Script untuk menampilkan loading spinner saat form disubmit
-        document.getElementById('upload-form').addEventListener('submit', function(e) {
-            // Cek dulu apakah file sudah dipilih
-            if (document.getElementById('gambar_kain').files.length > 0) {
-                document.getElementById('submit-button').classList.add('hidden');
-                document.getElementById('loading-spinner').classList.remove('hidden');
-                // Sembunyikan hasil lama saat request baru dibuat
-                document.getElementById('result-container').classList.add('hidden');
-            } else {
-                // Mencegah form submit jika tidak ada file
-                e.preventDefault();
-                alert("Silakan pilih file gambar terlebih dahulu.");
-            }
-        });
-        
-        // Pastikan loading spinner disembunyikan jika halaman dimuat ulang dengan hasil
-        window.addEventListener('load', function() {
-            if (document.getElementById('result-container').children.length > 0) {
-                 document.getElementById('loading-spinner').classList.add('hidden');
-                 document.getElementById('submit-button').classList.remove('hidden');
-            }
-        });
-    </script>
+<script>
+    document.getElementById('upload-form').addEventListener('submit', function(e) {
+        if (document.getElementById('gambar_kain').files.length > 0) {
+            document.getElementById('submit-button').classList.add('hidden');
+            document.getElementById('loading-spinner').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+        } else {
+            e.preventDefault();
+            alert("Silakan pilih file gambar terlebih dahulu.");
+        }
+    });
+    window.addEventListener('load', function() {
+        if (document.getElementById('result-container').children.length > 0) {
+            document.getElementById('loading-spinner').classList.add('hidden');
+            document.getElementById('submit-button').classList.remove('hidden');
+        }
+    });
+</script>
 {% endblock %}

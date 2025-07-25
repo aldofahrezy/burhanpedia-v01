@@ -16,16 +16,16 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-    <div class="container mx-auto mt-10 p-4 md:p-8">
-        <div class="bg-white rounded-lg shadow-xl p-6 md:p-10">
+    <div class="flex justify-center mt-10 p-4">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-xs">
             {% block content %}
             <!-- Konten spesifik halaman akan dimuat di sini -->
             {% endblock %}
         </div>
-        <footer class="text-center mt-8 text-gray-500">
-            <p>&copy; 2025 Proyek Klasifikasi Kain</p>
-        </footer>
     </div>
+    <footer class="text-center mt-8 text-gray-500">
+        <p>&copy; 2025 Proyek Klasifikasi Kain</p>
+    </footer>
 
 </body>
 </html>

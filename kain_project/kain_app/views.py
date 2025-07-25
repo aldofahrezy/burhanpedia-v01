@@ -139,12 +139,13 @@ def create_kain(request):
         batik_pilihan = request.POST.get('batik')
         warna_pilihan = request.POST.get('warna')
         bentuk_campuran = request.POST.get('bentuk_campuran')
+        mockup_pilihan = request.POST.get('mockup')
 
         prompt = (
             f"Desain kain batik modern dan artistik, terinspirasi dari motif '{batik_pilihan}', "
             f"menggunakan palet warna dominan '{warna_pilihan}'. "
             f"Gabungkan dengan elemen '{bentuk_campuran}'. "
-            "Hasilnya harus berupa gambar kain yang datar (flat lay), fotorealistik, dan detail tinggi."
+            f"Gunakan mockup '{mockup_pilihan}' untuk presentasi dengan fotorealistik, dan detail tinggi."
         )
         
         context['prompt'] = prompt

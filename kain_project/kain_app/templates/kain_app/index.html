@@ -1,25 +1,529 @@
-<!-- kain_app/templates/kain_app/index.html -->
-{% extends 'kain_app/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batik Knowledge - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-{% block title %}Halaman Utama{% endblock %}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
 
-{% block content %}
-    <div class="text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Selamat Datang di Aplikasi Kain</h1>
-        <p class="text-lg text-gray-600 mb-8">Pilih salah satu fitur di bawah ini untuk memulai.</p>
-        
-        <div class="flex flex-col md:flex-row justify-center items-center gap-6">
-            <!-- Tombol untuk menuju halaman Prediksi Kain -->
-            <a href="{% url 'kain_app:prediksi_kain' %}" 
-               class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                Prediksi Kain
+        .container {
+            max-width: 414px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 60px 20px 20px;
+            background: white;
+        }
+
+        .greeting {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            background: #333;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .notification-icon::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            background: #ff4444;
+            border-radius: 50%;
+        }
+
+        .hero-section {
+            padding: 0 20px 30px;
+            text-align: center;
+            background: white;
+            position: relative;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #8B4513;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .discover-btn {
+            background: #2E8B57;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .discover-btn:hover {
+            background: #236B43;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 30px 20px;
+            background: #f8f9fa;
+        }
+
+        .menu-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.2s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .menu-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .events-icon {
+            background: #FFE4E1;
+            color: #FF6B6B;
+        }
+
+        .batiklens-icon {
+            background: #FFF8DC;
+            color: #DAA520;
+        }
+
+        .museum-icon {
+            background: #F0E68C;
+            color: #B8860B;
+        }
+
+        .generate-icon {
+            background: #E6E6FA;
+            color: #9370DB;
+        }
+
+        .menu-label {
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .contributor-banner {
+            margin: 20px;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .contributor-content {
+            flex: 1;
+        }
+
+        .contributor-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .contributor-subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .apply-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .apply-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .see-all {
+            color: #666;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .events-list {
+            padding: 0 20px 20px;
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .event-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: #ddd;
+            margin-right: 16px;
+            object-fit: cover;
+        }
+
+        .event-content {
+            flex: 1;
+        }
+
+        .event-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .event-details {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .pattern-banner {
+            margin: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .pattern-image {
+            width: 60px;
+            height: 60px;
+            margin-right: 16px;
+            border-radius: 8px;
+        }
+
+        .pattern-content {
+            flex: 1;
+        }
+
+        .pattern-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #8B4513;
+            margin-bottom: 4px;
+        }
+
+        .pattern-subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .pattern-cta {
+            font-size: 12px;
+            color: #2E8B57;
+            font-weight: 500;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 10px;
+        }
+
+        .nav-item.active {
+            color: #8B4513;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-item.active .nav-icon {
+            background: #8B4513;
+            color: white;
+        }
+
+        @media (max-width: 414px) {
+            .container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="greeting">Hi, Jessica</div>
+            <div class="notification-icon"></div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%2011-9SZKRVVRjpgjmr3bbAF3QvcINjqfyg.png" alt="Batik Knowledge Hero" class="hero-image">
+            <button class="discover-btn">Discover now</button>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="menu-grid">
+            <a href="#" class="menu-item">
+                <div class="menu-icon events-icon">📅</div>
+                <div class="menu-label">Events</div>
             </a>
-            
-            <!-- Tombol untuk menuju halaman Create Kain -->
-            <a href="{% url 'kain_app:create_kain' %}" 
-               class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                Create Data Kain
+            <a href="#" class="menu-item">
+                <div class="menu-icon batiklens-icon">📱</div>
+                <div class="menu-label">BatikLens</div>
+            </a>
+            <a href="#" class="menu-item">
+                <div class="menu-icon museum-icon">🏛️</div>
+                <div class="menu-label">Museum</div>
+            </a>
+            <a href="#" class="menu-item">
+                <div class="menu-icon generate-icon">🖼️</div>
+                <div class="menu-label">Gen Pattern</div>
+            </a>
+        </div>
+
+        <!-- Contributor Banner -->
+        <div class="contributor-banner">
+            <div class="contributor-content">
+                <div class="contributor-title">Become a contributor!</div>
+                <div class="contributor-subtitle">Share the patterns and expand our heritage</div>
+            </div>
+            <button class="apply-btn">Apply now</button>
+        </div>
+
+        <!-- Popular Events Section -->
+        <div class="section-header">
+            <div class="section-title">Popular Events</div>
+            <a href="#" class="see-all">→</a>
+        </div>
+
+        <div class="events-list">
+            <div class="event-item">
+                <div class="event-image" style="background: linear-gradient(45deg, #8B4513, #D2691E);"></div>
+                <div class="event-content">
+                    <div class="event-title">Festival Fashion Show Batik 2025</div>
+                    <div class="event-details">
+                        Register by: Kamis, 31 Juli 2025<br>
+                        Event: Minggu, 2 Agustus 2025
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-item">
+                <div class="event-image" style="background: linear-gradient(45deg, #A0522D, #CD853F);"></div>
+                <div class="event-content">
+                    <div class="event-title">Workshop Teknik Pewarna Alami</div>
+                    <div class="event-details">
+                        Register by: Senin, 28 Juli 2025<br>
+                        Event: Selasa, 29 Juli 2025
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pattern Banner -->
+        <div class="pattern-banner">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Pattern%20Banner-XRMVC7G8vJrp1DpZzcY7foWtrx6lsV.png" alt="Pattern Community" class="pattern-image">
+            <div class="pattern-content">
+                <div class="pattern-title">100+ patterns</div>
+                <div class="pattern-subtitle">crafted each day by our community</div>
+                <div class="pattern-cta">Now it's your turn!</div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <a href="#" class="nav-item active">
+                <div class="nav-icon">🏠</div>
+                <div>Home</div>
+            </a>
+            <a href="#" class="nav-item">
+                <div class="nav-icon">🏛️</div>
+                <div>Museum</div>
+            </a>
+            <a href="#" class="nav-item">
+                <div class="nav-icon">👨‍🍳</div>
+                <div></div>
+            </a>
+            <a href="#" class="nav-item">
+                <div class="nav-icon">👥</div>
+                <div>Generate</div>
+            </a>
+            <a href="#" class="nav-item">
+                <div class="nav-icon">👤</div>
+                <div>Profile</div>
             </a>
         </div>
     </div>
-{% endblock %}
+
+    <script>
+        // Add click handlers for buttons
+        document.querySelector('.discover-btn').addEventListener('click', function() {
+            alert('Discover batik patterns!');
+        });
+
+        document.querySelector('.apply-btn').addEventListener('click', function() {
+            alert('Apply to become a contributor!');
+        });
+
+        // Add click handlers for menu items with different hrefs
+        document.querySelectorAll('.menu-item').forEach((item, idx) => {
+            item.addEventListener('click', function(e) {
+            e.preventDefault();
+            let urls = [
+                // Events
+                "{% url 'kain_app:index' %}",       
+
+                // BatikLens
+                "{% url 'kain_app:prediksi_kain' %}",         
+
+                // Museum
+                "{% url 'kain_app:index' %}", 
+
+                // Gen Pattern
+                "{% url 'kain_app:create_kain' %}"      
+            ];
+            window.location.href = urls[idx];
+            });
+        });
+
+        // Add click handlers for event items
+        document.querySelectorAll('.event-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const title = this.querySelector('.event-title').textContent;
+                alert(`Opening event: ${title}`);
+            });
+        });
+
+        // Add click handler for pattern banner
+        document.querySelector('.pattern-banner').addEventListener('click', function() {
+            alert('View community patterns!');
+        });
+
+        // Bottom navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all items
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                const section = this.textContent.trim();
+                if (section) {
+                    alert(`Navigating to ${section}...`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
