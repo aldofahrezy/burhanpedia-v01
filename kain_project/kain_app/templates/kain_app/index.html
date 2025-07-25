@@ -446,31 +446,41 @@
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
-<<<<<<< HEAD
-            <a href="" class="nav-item active">
-=======
-            <a href="{% url 'kain_app:index' %}" class="nav-item active">
->>>>>>> c9719c872a432b8a6a6adad4f4188c8dd4c7fa69
-                <div class="nav-icon">🏠</div>
-                <div>Home</div>
-            </a>
+            
             <a href="{% url 'kain_app:museum' %}" class="nav-item">
-                <div class="nav-icon">🏛️</div>
-                <div>Museum</div>
+                <div class="nav-icon" style="font-size: 22px;">🏛️</div>
+                <div style="font-size: 14px; ">Museum</div>
             </a>
             <a href="{% url 'kain_app:index' %}" class="nav-item">
-                <div class="nav-icon">👕</div>
-                <div>Print</div>
+                <div class="nav-icon" style="font-size: 22px;">👕</div>
+                <div style="font-size: 14px;">Print</div>
+            </a>
+            <a href="{% url 'kain_app:index' %}" class="nav-item active">
+                <div class="nav-icon" style="font-size: 22px;">🏠</div>
+                <div style="font-size: 14px; ">Home</div>
             </a>
             <a href="{% url 'kain_app:create_kain' %}" class="nav-item">
-                <div class="nav-icon">✨</div>
-                <div>Generate</div>
+                <div class="nav-icon" style="font-size: 22px;">✨</div>
+                <div style="font-size: 14px;">Generate</div>
             </a>
             <a href="{% url 'kain_app:prediksi_kain' %}" class="nav-item">
-                <div class="nav-icon">🔍</div>
-                <div>Analyse</div>
+                <div class="nav-icon" style="font-size: 22px;">🔍</div>
+                <div style="font-size: 14px; ">Analyse</div>
             </a>
         </div>
+        <style>
+            .bottom-nav .nav-item:hover {
+                color: #8B4513;
+                transform: scale(1.22);
+                transition: transform 0.18s cubic-bezier(.4,2,.6,1);
+            }
+            .bottom-nav .nav-item:hover .nav-icon {
+                background: #f5e3c3;
+                color: #8B4513;
+                transform: scale(1.28);
+                transition: transform 0.18s cubic-bezier(.4,2,.6,1);
+            }
+        </style>
     </div>
 
     <script>
