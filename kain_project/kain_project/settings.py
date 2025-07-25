@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-$v2^b--)6gdkzye%x8+zh(_ydro3yp(&sq2-jm&a=o1405fdh3
 # Atur DEBUG = False untuk produksi
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['burhanpedia-v01-production.up.railway.app']
 
 # Ambil hostname eksternal yang disediakan oleh Render
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
