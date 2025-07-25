@@ -195,3 +195,6 @@ def splash_5(request):
     Menangani tampilan splash screen (tidak berubah).
     """
     return render(request, 'kain_app/splash/splash_5.html')
+
+def museum(request):
+    return render(request, 'kain_app/museum.html')
