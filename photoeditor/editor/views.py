@@ -21,7 +21,49 @@ def generate_image_view(request):
     if request.method == 'POST':
         form = GenerateImageForm(request.POST)
         if form.is_valid():
-            prompt = form.cleaned_data['prompt']
+
+            # Base Prompt
+            base_prompt = form.cleaned_data['prompt']
+
+            # Preference Data
+            batik_origin = form.cleaned_data['batik_origin']
+            batik_motif = form.cleaned_data['batik_motif']
+            custom_shape = form.cleaned_data['custom_shape']
+            
+            # --- Construct the dynamic prompt ---
+            full_prompt_parts = []
+
+            # Add the base prompt first
+            if base_prompt:
+                full_prompt_parts.append(base_prompt)
+
+            # Add batik details if selected
+            batik_description_parts = []
+            if batik_origin and batik_origin != "Other":
+                batik_description_parts.append(f"Batik {batik_origin}")
+            # If "Other" is selected, the user should put details in the main prompt
+            # so we don't need a separate handling here unless you add a specific text input for "Other"
+
+            if batik_motif and batik_motif != "Other":
+                batik_description_parts.append(f"motif {batik_motif}")
+            # Same for "Other" motif
+
+            if batik_description_parts:
+                full_prompt_parts.append(" ".join(batik_description_parts))
+
+            # Add custom shape if provided
+            if custom_shape:
+                full_prompt_parts.append(f"dengan bentuk {custom_shape}")
+
+            # Combine all parts into the final prompt for DALL-E 3
+            # Use a comma as a separator, ensuring proper sentence structure
+            final_prompt = ", ".join(full_prompt_parts).strip()
+
+            # Ensure the prompt is not empty; provide a fallback if necessary
+            if not final_prompt:
+                final_prompt = "sebuah gambar" # Default fallback prompt
+
+            print(f"Final prompt for DALL-E 3: {final_prompt}") # For debugging purposes
             try:
                 # 1. Buat client OpenAI dan otentikasi menggunakan kunci dari settings.py
                 client = OpenAI(api_key=settings.OPENAI_API_KEY)
@@ -29,7 +71,7 @@ def generate_image_view(request):
                 # 2. Lakukan panggilan API ke DALL-E 3
                 response = client.images.generate(
                     model="dall-e-3",
-                    prompt=prompt,
+                    prompt= final_prompt,
                     size="1024x1024",
                     quality="standard",
                     n=1,
