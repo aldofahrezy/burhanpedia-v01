@@ -95,6 +95,22 @@ async function predict() {
 
         const predictedLabel = motiveLabels[predictedClassIndex];
 
+        // Kirim label ke backend untuk disimpan ke data.txt
+        fetch('/prediksi-kain/save-label/', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ label: predictedLabel })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Label berhasil dikirim:', data);
+        })
+        .catch(error => {
+            console.error('Gagal mengirim label:', error);
+        });
+
         predictionResult.innerHTML = `
             Prediksi Selesai!<br>
             Motif Paling Dominan: ${predictedLabel} dengan Probabilitas ${maxProb.toFixed(4)}
