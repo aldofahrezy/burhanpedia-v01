@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
-
-load_dotenv() # Muat variabel dari .env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,15 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$v2^b--)6gdkzye%x8+zh(_ydro3yp(&sq2-jm&a=o1405fdh3'
 
 # Atur DEBUG = False untuk produksi
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['burhanpedia-v01-production.up.railway.app']
-
-# Ambil hostname eksternal yang disediakan oleh Render
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
-
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -55,7 +46,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -133,8 +123,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # kain_project/settings.py
+import os
+from dotenv import load_dotenv
 
-
+load_dotenv() # Muat variabel dari .env
 
 # ...
 
