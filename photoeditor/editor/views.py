@@ -8,7 +8,8 @@ def index_view(request):
     return render(request, 'editor/index.html')
 
 # Pastikan import ini ada
-import openai
+from openai import OpenAI
+from openai import APIStatusError, RateLimitError
 from django.conf import settings
 from .forms import GenerateImageForm # Pastikan form ini juga di-import
 # ... import lainnya ...
@@ -23,7 +24,7 @@ def generate_image_view(request):
             prompt = form.cleaned_data['prompt']
             try:
                 # 1. Buat client OpenAI dan otentikasi menggunakan kunci dari settings.py
-                client = openai.OpenAI(api_key=settings.OPENAI_API_KEY)
+                client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
                 # 2. Lakukan panggilan API ke DALL-E 3
                 response = client.images.generate(
@@ -32,15 +33,15 @@ def generate_image_view(request):
                     size="1024x1024",
                     quality="standard",
                     n=1,
-                    response_format="b64_json" # Minta hasil dalam format base64
+                    response_format="b64_json"
                 )
 
                 # 3. Ambil data gambar dari respons
                 result_image = response.data[0].b64_json
 
-            except openai.RateLimitError:
+            except RateLimitError:
                 error_message = "Anda telah mencapai batas kuota. Silakan cek akun OpenAI Anda."
-            except openai.APIStatusError as e:
+            except APIStatusError as e:
                 error_message = f"Error dari OpenAI: {e.status_code} - {e.response.text}"
             except Exception as e:
                 error_message = f"Terjadi kesalahan: {e}"
