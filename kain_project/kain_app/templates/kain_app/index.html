@@ -446,7 +446,11 @@
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
+<<<<<<< HEAD
             <a href="" class="nav-item active">
+=======
+            <a href="{% url 'kain_app:index' %}" class="nav-item active">
+>>>>>>> c9719c872a432b8a6a6adad4f4188c8dd4c7fa69
                 <div class="nav-icon">🏠</div>
                 <div>Home</div>
             </a>
@@ -454,17 +458,17 @@
                 <div class="nav-icon">🏛️</div>
                 <div>Museum</div>
             </a>
-            <a href="#" class="nav-item">
-                <div class="nav-icon">👨‍🍳</div>
-                <div></div>
+            <a href="{% url 'kain_app:index' %}" class="nav-item">
+                <div class="nav-icon">👕</div>
+                <div>Print</div>
             </a>
-            <a href="#" class="nav-item">
-                <div class="nav-icon">👥</div>
+            <a href="{% url 'kain_app:create_kain' %}" class="nav-item">
+                <div class="nav-icon">✨</div>
                 <div>Generate</div>
             </a>
-            <a href="#" class="nav-item">
-                <div class="nav-icon">👤</div>
-                <div>Profile</div>
+            <a href="{% url 'kain_app:prediksi_kain' %}" class="nav-item">
+                <div class="nav-icon">🔍</div>
+                <div>Analyse</div>
             </a>
         </div>
     </div>
@@ -515,12 +519,8 @@
                 });
                 
                 // Add active class to clicked item
-                this.classList.add('active');
-                
-                const section = this.textContent.trim();
-                if (section) {
-                    alert(`Navigating to ${section}...`);
-                }
+                this.classList.add('active');            
+                window.location.href = navLinks[idx];
             });
         });
     </script>
