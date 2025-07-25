@@ -198,3 +198,6 @@ def splash_5(request):
 
 def museum(request):
     return render(request, 'kain_app/museum.html')
+
+def events(request):
+    return render(request, 'kain_app/events.html')

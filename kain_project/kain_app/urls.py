@@ -22,4 +22,5 @@ urlpatterns = [
     path('splash-4/', views.splash_4, name='splash_4'),
     path('splash-5/', views.splash_5, name='splash_5'),
     path('museum/', views.museum, name='museum'),
+    path('events/', views.events, name='events'),
 ]
