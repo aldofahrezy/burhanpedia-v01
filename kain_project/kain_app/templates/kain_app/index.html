@@ -408,35 +408,49 @@
 
         <div class="events-list">
             <div class="event-item">
-                <div class="event-image" style="background: linear-gradient(45deg, #8B4513, #D2691E);"></div>
-                <div class="event-content">
-                    <div class="event-title">Festival Fashion Show Batik 2025</div>
-                    <div class="event-details">
-                        Register by: Kamis, 31 Juli 2025<br>
-                        Event: Minggu, 2 Agustus 2025
-                    </div>
+            <div class="event-image" style="background: linear-gradient(45deg, #8B4513, #D2691E); display: flex; align-items: center; justify-content: center;">
+                <!-- Example SVG Batik logo/icon -->
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <circle cx="18" cy="18" r="16" fill="#fff3e0" stroke="#8B4513" stroke-width="2"/>
+                <path d="M18 10L21 18L18 26L15 18L18 10Z" fill="#D2691E"/>
+                <circle cx="18" cy="18" r="3" fill="#8B4513"/>
+                </svg>
+            </div>
+            <div class="event-content">
+                <div class="event-title">Hari Batik Nasional 2025</div>
+                <div class="event-details">
+                Held by: Rabu, 2 Oktober 2025<br>
+                Event: Museum Batik
                 </div>
+            </div>
             </div>
 
             <div class="event-item">
-                <div class="event-image" style="background: linear-gradient(45deg, #A0522D, #CD853F);"></div>
-                <div class="event-content">
-                    <div class="event-title">Workshop Teknik Pewarna Alami</div>
-                    <div class="event-details">
-                        Register by: Senin, 28 Juli 2025<br>
-                        Event: Selasa, 29 Juli 2025
-                    </div>
+            <div class="event-image" style="background: linear-gradient(45deg, #A0522D, #CD853F); display: flex; align-items: center; justify-content: center;">
+                <!-- Example SVG Batik logo/icon -->
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <rect x="6" y="6" width="24" height="24" rx="12" fill="#fff8e1" stroke="#A0522D" stroke-width="2"/>
+                <path d="M18 12C20.2091 12 22 13.7909 22 16C22 18.2091 20.2091 20 18 20C15.7909 20 14 18.2091 14 16C14 13.7909 15.7909 12 18 12Z" fill="#CD853F"/>
+                <circle cx="18" cy="16" r="2" fill="#A0522D"/>
+                </svg>
+            </div>
+            <div class="event-content">
+                <div class="event-title">Workshop Pengembangan Batik</div>
+                <div class="event-details">
+                Held by: Senin, 28 Juli 2025<br>
+                Event: Kota Tua
                 </div>
+            </div>
             </div>
         </div>
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
-            <a href="#" class="nav-item active">
+            <a href="" class="nav-item active">
                 <div class="nav-icon">🏠</div>
                 <div>Home</div>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{% url 'kain_app:museum' %}" class="nav-item">
                 <div class="nav-icon">🏛️</div>
                 <div>Museum</div>
             </a>
