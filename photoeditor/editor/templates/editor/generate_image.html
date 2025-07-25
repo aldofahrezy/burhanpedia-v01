@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generate Image dengan AI</title>
+    <style>
+        body { font-family: sans-serif; padding: 2em; max-width: 800px; margin: auto; }
+        form { display: flex; flex-direction: column; gap: 15px; }
+        textarea { width: 100%; font-family: inherit; padding: 10px; font-size: 16px; }
+        button { background-color: #d9006c; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        .result { margin-top: 2em; text-align: center; }
+        .result img { max-width: 100%; border: 1px solid #ccc; border-radius: 8px; }
+        .error { color: red; margin-top: 1em; }
+    </style>
+</head>
+<body>
+    <h1>Generate Image dengan Gemini AI</h1>
+    <p>Cukup tuliskan imajinasi Anda, dan biarkan AI yang menggambarnya untuk Anda.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Buat Gambar!</button>
+    </form>
+
+    {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+
+    {% if result_image %}
+    <div class="result">
+        <h2>Hasil:</h2>
+        <img src="data:image/jpeg;base64,{{ result_image }}" alt="Gambar yang dihasilkan AI">
+        <br><br>
+        <a href="data:image/jpeg;base64,{{ result_image }}" download="ai-generated-image.jpg" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+            Download Gambar
+        </a>
+    </div>
+    {% endif %}
+
+</body>
+</html>

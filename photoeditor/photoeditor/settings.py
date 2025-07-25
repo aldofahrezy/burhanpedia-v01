@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+GEMINI_API_KEY = "AIzaSyCNv2onoahUYRhHAFA71YX5AglsC32hC2U"
+OPENAI_API_KEY = "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"
 
 # Application definition
 
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'editor',
+    'myapp',
 ]
 
 MIDDLEWARE = [

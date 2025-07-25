@@ -28,3 +28,9 @@ class QuickEditForm(forms.Form):
     logo_image = forms.ImageField(label="2. Unggah Logo", required=False)
     text = forms.CharField(label="3. Masukkan Angka/Teks", required=False)
     font_size = forms.IntegerField(label="Ukuran Teks", initial=150)
+
+class GenerateImageForm(forms.Form):
+    prompt = forms.CharField(
+        label="Deskripsikan gambar yang Anda inginkan",
+        widget=forms.Textarea(attrs={'rows': 4, 'placeholder': 'Contoh: Seekor astronot menunggang kuda di Mars, gaya surealis'})
+    )

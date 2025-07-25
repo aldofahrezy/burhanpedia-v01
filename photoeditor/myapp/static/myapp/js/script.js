@@ -35,28 +35,6 @@ async function preprocessImage(imageData) {
     // Model TensorFlow/Keras umumnya mengharapkan input float.
     tensor = tensor.toFloat();
 
-    // 3. Normalisasi (PENTING BERDASARKAN PEMROSESAN ASLI ANDA)
-    // Karena 'rescale=1./255' dikomentari di ImageDataGenerator Anda,
-    // kita TIDAK akan melakukan normalisasi .div(tf.scalar(255)) di sini.
-    // Ini berarti model Anda kemungkinan mengharapkan nilai piksel dalam rentang [0, 255]
-    // atau memiliki lapisan normalisasi internal.
-
-    // Jika Anda menggunakan model pre-trained (misalnya VGG, ResNet, MobileNet) yang dilatih di ImageNet,
-    // mereka sering memiliki kebutuhan pra-pemrosesan yang sangat spesifik
-    // (misalnya normalisasi ke [-1, 1] atau pengurangan mean/std dev).
-    // Jika itu kasusnya, Anda harus mengimplementasikannya di sini.
-    // Contoh untuk MobileNetV2 (normalisasi ke [-1, 1]):
-    // tensor = tensor.div(tf.scalar(127.5)).sub(tf.scalar(1.0));
-    // Contoh untuk VGG/ResNet (pengurangan mean per channel):
-    // tensor = tf.sub(tensor, tf.tensor([123.68, 116.779, 103.939]));
-
-    // Untuk saat ini, asumsikan model Anda dilatih dengan input [0, 255] float,
-    // karena 'rescale=1./255' dikomentari.
-    // Jika Anda TIDAK melakukan normalisasi 1/255 di Python, maka TIDAK lakukan di sini.
-
-    // 4. Tambahkan dimensi batch.
-    // Model mengharapkan input dalam bentuk batch (misal: [batch_size, height, width, channels]).
-    // Untuk satu gambar, ini akan menjadi [1, 224, 224, 3].
     tensor = tensor.expandDims();
 
     return tensor

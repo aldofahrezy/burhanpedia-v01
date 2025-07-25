@@ -21,5 +21,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('editor.urls')), # Arahkan ke urls aplikasi editor
+    path('prediksi-kain/', include('myapp.urls')),
 ]
 
