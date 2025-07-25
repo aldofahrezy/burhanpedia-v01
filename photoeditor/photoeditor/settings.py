@@ -11,24 +11,26 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure--xe^=$4c8-df+e&8a)q$^^a+z=e7iv&y0wdb68hjes2c(yc!4r'
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-GEMINI_API_KEY = "AIzaSyCNv2onoahUYRhHAFA71YX5AglsC32hC2U"
-OPENAI_API_KEY = "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"
 
 # Application definition
 
