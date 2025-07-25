@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Batik Indonesia - Google Arts & Culture</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Menggunakan font yang mirip dengan Google */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #F8F9FA;
+        }
+        h1, h2, h3, .font-google-sans {
+            font-family: 'Google Sans', sans-serif;
+        }
+        /* Style untuk aspect ratio pada gambar agar ukurannya seragam */
+        .aspect-card {
+            aspect-ratio: 1 / 1.2;
+        }
+        /* Kustomisasi untuk menyembunyikan scrollbar horizontal */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="text-gray-900">
+
+    <!-- Header Aplikasi -->
+    <header class="bg-white shadow-sm sticky top-0 z-10 p-4 flex items-center">
+        <svg class="w-6 h-6 mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <div class="flex items-center">
+            <img src="https://lh3.googleusercontent.com/proxy/4l-hDb-Y-i_i-sE-iSBOzTD2aF0aTcFoPq-S-u2p5wXgYg_p_1-E-X0R_4sZ-j5g_g" alt="Logo Google Arts & Culture" class="w-7 h-7 mr-3">
+            <span class="font-google-sans text-lg">Arts & Culture</span>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <main class="p-4">
+        <!-- Judul Partner -->
+        <div class="mb-6">
+            <h1 class="text-3xl font-google-sans font-bold">Museum Batik Indonesia</h1>
+            <p class="text-gray-600 mt-1">Partner</p>
+        </div>
+
+        <!-- Deskripsi -->
+        <div class="bg-white p-4 rounded-lg shadow mb-6">
+            <p class="text-gray-700 leading-relaxed">
+                Batik bukan hanya selembar kain; ia adalah kanvas yang merekam jejak sejarah, filosofi, dan kearifan lokal bangsa Indonesia. Setiap goresan malam dan celupan warna mengandung makna mendalam yang diwariskan dari generasi ke generasi. Museum Batik Indonesia didedikasikan untuk melestarikan dan memperkenalkan kekayaan tak ternilai ini kepada dunia.
+            </p>
+        </div>
+
+        <!-- Judul Koleksi -->
+        <h2 class="text-2xl font-google-sans font-medium mb-4">Koleksi Unggulan</h2>
+
+        <!-- Galeri Horizontal -->
+        <div id="batik-grid" class="flex overflow-x-auto space-x-4 pb-4 no-scrollbar">
+            <!-- Kartu batik akan dimuat di sini oleh JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        // Fungsi untuk mengambil data JSON dan membangun galeri
+        async function loadBatikData() {
+            try {
+                const response = await fetch('data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                const grid = document.getElementById('batik-grid');
+                
+                // Membersihkan grid sebelum memuat data baru
+                grid.innerHTML = ''; 
+
+                // Loop melalui setiap item batik dan buat kartu HTML untuk galeri horizontal
+                data.batikPatterns.forEach(pattern => {
+                    const card = `
+                        <div class="flex-shrink-0 w-40 bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                            <a href="#" class="block">
+                                <img src="${pattern.imageUrl}" 
+                                     alt="[Gambar ${pattern.name}]" 
+                                     class="w-full h-auto object-cover aspect-card"
+                                     onerror="this.onerror=null;this.src='https://placehold.co/400x480/e2e8f0/4a5568?text=Gambar+Rusak';">
+                                <div class="p-3">
+                                    <h3 class="font-bold font-google-sans truncate text-sm">${pattern.name}</h3>
+                                    <p class="text-xs text-gray-600 truncate">${pattern.origin}</p>
+                                </div>
+                            </a>
+                        </div>
+                    `;
+                    grid.innerHTML += card;
+                });
+
+            } catch (error) {
+                console.error("Gagal memuat data batik:", error);
+                const grid = document.getElementById('batik-grid');
+                grid.innerHTML = '<p class="text-red-500">Tidak dapat memuat koleksi. Silakan coba lagi nanti.</p>';
+            }
+        }
+
+        // Panggil fungsi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', loadBatikData);
+    </script>
+
+</body>
+</html>

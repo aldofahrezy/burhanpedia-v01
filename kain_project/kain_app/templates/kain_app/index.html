@@ -151,6 +151,10 @@
             color: #B8860B;
         }
 
+        .hero-section a{
+            text-decoration: none;
+        }
+
         .generate-icon {
             background: #E6E6FA;
             color: #9370DB;
@@ -225,7 +229,7 @@
         }
 
         .events-list {
-            padding: 0 20px 20px;
+            padding: 0 25px 60px;
         }
 
         .event-item {
@@ -364,7 +368,7 @@
         <!-- Hero Section -->
         <div class="hero-section">
             <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%2011-9SZKRVVRjpgjmr3bbAF3QvcINjqfyg.png" alt="Batik Knowledge Hero" class="hero-image">
-            <button class="discover-btn">Discover now</button>
+            <a href="{% url 'kain_app:create_kain' %}" class="discover-btn">Discover now</a>
         </div>
 
         <!-- Menu Grid -->
@@ -387,13 +391,13 @@
             </a>
         </div>
 
-        <!-- Contributor Banner -->
-        <div class="contributor-banner">
+        <!-- Become Artsy Banner -->
+        <div class="contributor-banner" style="background: linear-gradient(135deg, #c76904 0%, #a73d05 100%); box-shadow: 0 4px 16px rgba(106,17,203,0.08);">
             <div class="contributor-content">
-                <div class="contributor-title">Become a contributor!</div>
-                <div class="contributor-subtitle">Share the patterns and expand our heritage</div>
+            <div class="contributor-title" style="font-size:18px; font-weight:700; letter-spacing:0.5px;">Become <span style="color:#ffd700;">Artsy</span>!</div>
+            <div class="contributor-subtitle" style="font-size:13px; opacity:0.95;">Unleash your creativity and share your unique batik patterns with the world.</div>
             </div>
-            <button class="apply-btn">Apply now</button>
+            <a href="{% url 'kain_app:prediksi_kain' %}" class="apply-btn" style="background:#ffd700; color:#222; border:none; font-weight:700; font-size:13px; box-shadow:0 2px 8px rgba(0,0,0,0.07); text-decoration:none;">Get Started</a>
         </div>
 
         <!-- Popular Events Section -->
@@ -426,16 +430,6 @@
             </div>
         </div>
 
-        <!-- Pattern Banner -->
-        <div class="pattern-banner">
-            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Pattern%20Banner-XRMVC7G8vJrp1DpZzcY7foWtrx6lsV.png" alt="Pattern Community" class="pattern-image">
-            <div class="pattern-content">
-                <div class="pattern-title">100+ patterns</div>
-                <div class="pattern-subtitle">crafted each day by our community</div>
-                <div class="pattern-cta">Now it's your turn!</div>
-            </div>
-        </div>
-
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
             <a href="#" class="nav-item active">
@@ -462,15 +456,6 @@
     </div>
 
     <script>
-        // Add click handlers for buttons
-        document.querySelector('.discover-btn').addEventListener('click', function() {
-            alert('Discover batik patterns!');
-        });
-
-        document.querySelector('.apply-btn').addEventListener('click', function() {
-            alert('Apply to become a contributor!');
-        });
-
         // Add click handlers for menu items with different hrefs
         document.querySelectorAll('.menu-item').forEach((item, idx) => {
             item.addEventListener('click', function(e) {
