@@ -164,3 +164,33 @@ def create_kain(request):
             context['error_message'] = f"Maaf, terjadi kesalahan saat menghasilkan gambar: {e}"
 
     return render(request, 'kain_app/create_kain.html', context)
+
+def splash_1(request):
+    """
+    Menangani tampilan splash screen (tidak berubah).
+    """
+    return render(request, 'kain_app/splash/splash_1.html')
+
+def splash_2(request):
+    """
+    Menangani tampilan splash screen (tidak berubah).
+    """
+    return render(request, 'kain_app/splash/splash_2.html')
+
+def splash_3(request):
+    """
+    Menangani tampilan splash screen (tidak berubah).
+    """
+    return render(request, 'kain_app/splash/splash_3.html')
+
+def splash_4(request):
+    """
+    Menangani tampilan splash screen (tidak berubah).
+    """
+    return render(request, 'kain_app/splash/splash_4.html')
+
+def splash_5(request):
+    """
+    Menangani tampilan splash screen (tidak berubah).
+    """
+    return render(request, 'kain_app/splash/splash_5.html')

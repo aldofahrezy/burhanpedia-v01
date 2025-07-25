@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GarisNadi - Splash 4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'burgundy': '#A0524F',
+                        'gold': '#D4AF37'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <!-- Mobile Container -->
+    <div class="w-full max-w-sm mx-auto bg-burgundy min-h-screen flex flex-col text-white font-sans relative overflow-hidden shadow-2xl">
+        <!-- Header -->
+        <div class="flex flex-col items-center space-y-4 px-8 pt-12 text-center z-10">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/GarisNadi%20Logo-FilQacpL6VZ6eXdY0kEN5YrJzyc7RP.png" alt="GarisNadi Logo" class="w-12 h-12">
+            <p class="text-sm text-gold italic font-medium">
+                #Your Style, Our Heritage
+            </p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col items-center justify-center px-6 py-8">
+            <!-- Illustration -->
+            <div class="mb-8">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Splash_2-3r9UhAcQMpKZydDaCO13juVQPu8g5W.png" alt="Phone Scanning Batik" class="w-72 h-72 mx-auto">
+            </div>
+            
+            <!-- Description -->
+            <div class="text-center space-y-4 max-w-xs">
+                <p class="text-base leading-relaxed font-light">
+                    Scan batik patterns, contribute to our growing archive, and be part of preserving heritage through AI and community.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="flex justify-between items-center px-8 pb-8">
+            <!-- Progress indicator -->
+            <div class="flex space-x-2">
+                <div class="w-2 h-1 bg-white bg-opacity-30 rounded-full"></div>
+                <div class="w-2 h-1 bg-white bg-opacity-30 rounded-full"></div>
+                <div class="w-8 h-1 bg-gold rounded-full"></div>
+                <div class="w-2 h-1 bg-white bg-opacity-30 rounded-full"></div>
+                <div class="w-2 h-1 bg-white bg-opacity-30 rounded-full"></div>
+            </div>
+            
+            <!-- Next button -->
+            <button onclick="window.location.href='{% url 'kain_app:splash_5' %}'" 
+                    class="bg-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110">
+                <svg class="w-6 h-6 text-burgundy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

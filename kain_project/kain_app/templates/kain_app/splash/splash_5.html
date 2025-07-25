@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GarisNadi - Splash 5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'burgundy': '#A0524F',
+                        'gold': '#D4AF37'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <!-- Mobile Container -->
+    <div class="w-full max-w-sm mx-auto bg-burgundy min-h-screen flex flex-col text-white font-sans relative overflow-hidden shadow-2xl">
+        <!-- Header -->
+        <div class="flex flex-col items-center space-y-4 px-8 pt-12 text-center z-10">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/GarisNadi%20Logo-FilQacpL6VZ6eXdY0kEN5YrJzyc7RP.png" alt="GarisNadi Logo" class="w-12 h-12">
+            <p class="text-sm text-gold italic font-medium">
+                #Your Style, Our Heritage
+            </p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col items-center justify-center px-6 py-8">
+            <!-- Illustration -->
+            <div class="mb-8">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Splash_3-NGO2gFOnx5kh01Ocd4YTpy3AmgWFzX.png" alt="Community of Batik Enthusiasts" class="w-72 h-56 mx-auto">
+            </div>
+            
+            <!-- Description -->
+            <div class="text-center space-y-4 max-w-xs">
+                <p class="text-base leading-relaxed font-light">
+                    A collaborative space where batik enthusiasts connect, share, and grow together.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="flex flex-col items-center space-y-6 px-8 pb-8">
+            <!-- Progress indicator -->
+            <div class="flex space-x-2">
+                <div class="w-2 h-1 bg-white bg-opacity-30 rounded-full"></div>
+                <div class="w-2 h-1 bg-white bg-opacity-30 rounded-full"></div>
+                <div class="w-2 h-1 bg-white bg-opacity-30 rounded-full"></div>
+                <div class="w-2 h-1 bg-white bg-opacity-30 rounded-full"></div>
+                <div class="w-8 h-1 bg-gold rounded-full"></div>
+            </div>
+            
+            <!-- Get Started button -->
+            <button onclick="window.location.href='{% url 'kain_app:index' %}'" 
+                    class="w-full bg-white text-burgundy py-4 px-8 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                Get Started
+            </button>
+            
+            <!-- Skip option -->
+            <button onclick="window.location.href='{% url 'kain_app:index' %}'" 
+                    class="text-white text-sm opacity-70 hover:opacity-100 transition-opacity">
+                Skip
+            </button>
+        </div>
+    </div>
+</body>
+</html>
