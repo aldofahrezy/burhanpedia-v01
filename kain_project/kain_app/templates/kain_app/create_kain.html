@@ -15,7 +15,7 @@
 
     <form action="{% url 'kain_app:create_kain' %}" method="post" class="mb-8" id="batik-form">
         {% csrf_token %}
-        <div class="grid grid-cols-1 gap-6"> {# Changed to single column grid #}
+        <div class="grid grid-cols-1 gap-6">
             <div class="">
                 <label for="batik" class="block text-gray-700 text-sm font-bold mb-2">Pilih Inspirasi Motif Batik:</label>
                 <select name="batik" id="batik" required class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -34,7 +34,6 @@
                 </select>
             </div>
 
-            {# New dropdown for Mockup #}
             <div class="mb-4">
                 <label for="mockup" class="block text-gray-700 text-sm font-bold mb-2">Pilih Mockup:</label>
                 <select name="mockup" id="mockup" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -50,24 +49,23 @@
             <input type="text" name="bentuk_campuran" id="bentuk_campuran" required placeholder="Contoh: bunga lotus, bentuk geometris, sulur tanaman" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
         </div>
         
-        <div class="flex flex-col items-center gap-4"> {# Changed to flex-col for vertical stacking #}
+        <div class="flex flex-col items-center gap-4">
             <button type="submit" id="generate-button" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
                 ✨ Hasilkan Gambar
             </button>
-            <a href="{% url 'kain_app:index' %}" class="w-full text-center inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800 py-2"> {# Added w-full and text-center for full width and centering #}
+            <a href="{% url 'kain_app:index' %}" class="w-full text-center inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800 py-2">
                 Kembali ke Menu
             </a>
         </div>
     </form>
 
-    {# Loading Spinner/Message #}
     <div id="loading-spinner" class="hidden flex flex-col items-center justify-center mb-8">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
         <p class="mt-4 text-gray-700 text-lg">Membuat desain batik Anda, mohon tunggu sebentar...</p>
     </div>
 
     {% if image_url %}
-        <div class="border-t pt-8 mt-8 overflow-hidden" id="result-section"> {# Added overflow-hidden here #}
+        <div class="border-t pt-8 mt-8 overflow-hidden" id="result-section">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">Hasil Desain Anda</h2>
             <div class="bg-gray-200 p-4 rounded-lg shadow-inner">
                 <img src="{{ image_url }}" alt="Generated Batik Design" class="rounded-lg shadow-lg w-full max-w-lg mx-auto">
@@ -88,30 +86,30 @@
         const form = document.getElementById('batik-form');
         const generateButton = document.getElementById('generate-button');
         const loadingSpinner = document.getElementById('loading-spinner');
-        const resultSection = document.getElementById('result-section'); // Get the result section
+        const resultSection = document.getElementById('result-section');
 
         form.addEventListener('submit', function() {
-            // Show the loading spinner
+            // Tampilkan spinner loading
             loadingSpinner.classList.remove('hidden');
-            loadingSpinner.classList.add('flex'); // Ensure flex display for centering
+            loadingSpinner.classList.add('flex'); // Pastikan display flex untuk centering
 
-            // Disable the button to prevent multiple submissions
+            // Nonaktifkan tombol untuk mencegah pengiriman ganda
             generateButton.disabled = true;
-            generateButton.innerHTML = 'Memproses...'; // Change button text
+            generateButton.innerHTML = 'Memproses...'; // Ubah teks tombol
 
-            // Optionally, hide the form or make it less prominent
+            // Opsional: Sembunyikan form atau buat kurang menonjol
             form.style.opacity = '0.5';
             form.style.pointerEvents = 'none';
 
-            // Hide previous results if any
+            // Sembunyikan hasil sebelumnya jika ada
             if (resultSection) {
                 resultSection.classList.add('hidden');
             }
         });
 
-        // If the page loads with an image_url, it means the generation is complete
-        // and we should ensure the spinner is hidden and button is re-enabled.
-        // This handles cases where the user navigates back or the page reloads after generation.
+        // Jika halaman dimuat dengan image_url, berarti proses generate sudah selesai.
+        // Pastikan spinner tersembunyi dan tombol aktif kembali.
+        // Ini menangani kasus ketika pengguna kembali atau halaman di-reload setelah generate.
         if (loadingSpinner.classList.contains('flex')) {
             loadingSpinner.classList.remove('flex');
             loadingSpinner.classList.add('hidden');
