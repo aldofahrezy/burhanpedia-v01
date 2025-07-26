@@ -3,150 +3,156 @@
 {% block title %}Generator Desain Batik AI{% endblock %}
 
 {% block content %}
-<h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Generator Desain Batik AI</h1>
-<p class="text-gray-600 mb-6">Ciptakan desain batik unik Anda sendiri dengan bantuan AI.</p>
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Generator Desain Batik AI</h1>
+    <p class="text-gray-600 mb-6">Ciptakan desain batik unik Anda sendiri dengan bantuan AI.</p>
 
-{% if error_message %}
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert" id="error-alert">
-        <strong class="font-bold">Error!</strong>
-        <span class="block sm:inline">{{ error_message }}</span>
-    </div>
-{% endif %}
-
-<form action="{% url 'kain_app:create_kain' %}" method="post" class="mb-8" id="batik-form">
-    {% csrf_token %}
-    <div class="grid grid-cols-1 gap-6">
-        <div class="">
-            <label for="batik" class="block text-gray-700 text-sm font-bold mb-2">Pilih Inspirasi Motif Batik:</label>
-            <select name="batik" id="batik" required class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                {% for option in batik_options %}
-                    <option value="{{ option }}">{{ option }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        
-        <div class="">
-            <label for="warna" class="block text-gray-700 text-sm font-bold mb-2">Pilih Palet Warna:</label>
-            <select name="warna" id="warna" required class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                {% for option in warna_options %}
-                    <option value="{{ option }}">{{ option }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="mb-4">
-            <label for="mockup" class="block text-gray-700 text-sm font-bold mb-2">Pilih Mockup:</label>
-            <select name="mockup" id="mockup" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <option value="kain">Kain</option>
-                <option value="baju">Baju</option>
-                <option value="celana">Celana</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="mb-6">
-        <label for="bentuk_campuran" class="block text-gray-700 text-sm font-bold mb-2">Tambahkan Bentuk/Elemen Campuran:</label>
-        <input type="text" name="bentuk_campuran" id="bentuk_campuran" required placeholder="Contoh: bunga lotus, bentuk geometris, sulur tanaman" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-    </div>
-    
-    <div class="flex flex-col items-center gap-4">
-        <button type="submit" id="generate-button" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
-            ✨ Hasilkan Gambar
-        </button>
-        <a href="{% url 'kain_app:index' %}" class="w-full text-center inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800 py-2">
-            Kembali ke Menu
-        </a>
-    </div>
-</form>
-
-<div id="loading-spinner" class="text-center my-6 hidden">
-    <svg class="animate-spin h-8 w-8 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-    </svg>
-    <p class="mt-2 text-gray-600 font-semibold text-xs">Membuat desain batik Anda... Proses ini mungkin memerlukan beberapa saat.</p>
-</div>
-
-<div id="result-container" class="mt-6 border-t pt-6">
-    {# The error_message is now displayed directly in the result-container if present #}
-    {% if image_url %}
-        <h2 class="text-2xl font-bold text-gray-900 mb-4">Hasil Desain Anda</h2>
-        <div class="bg-gray-200 p-4 rounded-lg shadow-inner">
-            <img src="{{ image_url }}" alt="Generated Batik Design" class="rounded-lg shadow-lg w-full max-w-lg mx-auto">
-        </div>
-        <div class="text-center mt-6">
-            <a href="{{ image_url }}" download="desain_batik_ai.jpg" target="_blank" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-block">
-                ⬇️ Unduh Gambar (JPG)
-            </a>
+    {# Display error message if present #}
+    {% if error_message %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert" id="error-alert">
+            <strong class="font-bold">Error!</strong>
+            <span class="block sm:inline">{{ error_message }}</span>
         </div>
     {% endif %}
-</div>
 
-{% endblock %}
+    <form action="{% url 'kain_app:create_kain' %}" method="post" class="mb-8" id="batik-form">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 gap-6">
+            <div class="">
+                <label for="batik" class="block text-gray-700 text-sm font-bold mb-2">Pilih Inspirasi Motif Batik:</label>
+                <select name="batik" id="batik" required class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    {% for option in batik_options %}
+                        <option value="{{ option }}">{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="">
+                <label for="warna" class="block text-gray-700 text-sm font-bold mb-2">Pilih Palet Warna:</label>
+                <select name="warna" id="warna" required class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    {% for option in warna_options %}
+                        <option value="{{ option }}">{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const uploadForm = document.getElementById('batik-form'); // Renamed to batik-form
-        const submitButton = document.getElementById('generate-button'); // Renamed to generate-button
-        const loadingSpinner = document.getElementById('loading-spinner');
-        const resultContainer = document.getElementById('result-container');
-        const errorAlert = document.getElementById('error-alert'); // Added to target the error message div
+            <div class="mb-4">
+                <label for="mockup" class="block text-gray-700 text-sm font-bold mb-2">Pilih Mockup:</label>
+                <select name="mockup" id="mockup" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="kain">Kain</option>
+                    <option value="baju">Baju</option>
+                    <option value="celana">Celana</option>
+                </select>
+            </div>
+        </div>
 
-        if (uploadForm) { // Ensure the form exists
-            uploadForm.addEventListener('submit', function(e) {
-                // Here, we don't need to check files.length since input type is not file
-                // and 'required' attribute handles empty fields.
+        <div class="mb-6">
+            <label for="bentuk_campuran" class="block text-gray-700 text-sm font-bold mb-2">Tambahkan Bentuk/Elemen Campuran:</label>
+            <input type="text" name="bentuk_campuran" id="bentuk_campuran" required placeholder="Contoh: bunga lotus, bentuk geometris, sulur tanaman" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        
+        <div class="flex flex-col items-center gap-4">
+            <button type="submit" id="generate-button" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
+                ✨ Hasilkan Gambar
+            </button>
+            <a href="{% url 'kain_app:index' %}" class="w-full text-center inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800 py-2">
+                Kembali ke Menu
+            </a>
+        </div>
+    </form>
 
-                if (submitButton) {
-                    submitButton.classList.add('hidden');
-                }
-                if (loadingSpinner) {
-                    loadingSpinner.classList.remove('hidden');
-                }
-                if (resultContainer) {
-                    resultContainer.classList.add('hidden'); // Hide results on new submission
-                }
-                if (errorAlert) {
-                    errorAlert.classList.add('hidden'); // Hide error on new submission
+    <div id="loading-spinner" class="text-center my-6 hidden">
+        <svg class="animate-spin h-8 w-8 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <p class="mt-2 text-gray-600 font-semibold text-xs">Membuat desain batik Anda... Proses ini mungkin memerlukan beberapa saat.</p>
+    </div>
+
+    <div id="result-container" class="mt-6 border-t pt-6">
+        {# The image will only appear here if image_url is provided by the view #}
+        {% if image_url %}
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Hasil Desain Anda</h2>
+            <div class="bg-gray-200 p-4 rounded-lg shadow-inner">
+                <img src="{{ image_url }}" alt="Generated Batik Design" class="rounded-lg shadow-lg w-full max-w-lg mx-auto">
+            </div>
+            <div class="text-center mt-6">
+                <a href="{{ image_url }}" download="desain_batik_ai.jpg" target="_blank" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-block">
+                    ⬇️ Unduh Gambar (JPG)
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get references to HTML elements
+            const batikForm = document.getElementById('batik-form');
+            const generateButton = document.getElementById('generate-button');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const resultContainer = document.getElementById('result-container');
+            const errorAlert = document.getElementById('error-alert'); // Reference for the error message div
+
+            // --- Logic for handling form submission ---
+            // If the form element exists, add an event listener for 'submit'
+            if (batikForm) {
+                batikForm.addEventListener('submit', function(e) {
+                    // Hide the generate button and show the loading spinner
+                    if (generateButton) {
+                        generateButton.classList.add('hidden');
+                    }
+                    if (loadingSpinner) {
+                        loadingSpinner.classList.remove('hidden');
+                    }
+                    
+                    // Hide any existing result container or error message from previous attempts
+                    if (resultContainer) {
+                        resultContainer.classList.add('hidden');
+                    }
+                    if (errorAlert) {
+                        errorAlert.classList.add('hidden');
+                    }
+                });
+            }
+
+            // --- Logic for handling page load (after initial render or refresh) ---
+            // This runs after the entire page (including potential server-rendered results) has loaded.
+            window.addEventListener('load', function() {
+                // Determine if there's any output (an image URL or an error message) from the server.
+                // This 'true' or 'false' will be injected by Django.
+                const hasOutput = "{% if image_url or error_message %}true{% else %}false{% endif %}" === "true";
+
+                if (hasOutput) {
+                    // If there's an image result or an error message on page load,
+                    // ensure the loading spinner is hidden and the button is visible.
+                    if (loadingSpinner) {
+                        loadingSpinner.classList.add('hidden');
+                    }
+                    if (generateButton) {
+                        generateButton.classList.remove('hidden');
+                    }
+                    // Ensure result container is visible if it contains an image.
+                    // Note: If error_message is present, its div ('error-alert') will be visible by default
+                    // because it's part of the static HTML structure unless hidden by JS.
+                    if (resultContainer) {
+                        resultContainer.classList.remove('hidden');
+                    }
+                } else {
+                    // If it's a fresh load with no results/errors, ensure a clean state:
+                    // button visible, spinner hidden, and result/error containers hidden.
+                    if (loadingSpinner) {
+                        loadingSpinner.classList.add('hidden');
+                    }
+                    if (generateButton) {
+                        generateButton.classList.remove('hidden');
+                    }
+                    if (resultContainer) {
+                        resultContainer.classList.add('hidden');
+                    }
+                    if (errorAlert) { // Ensure error message is hidden on fresh load
+                        errorAlert.classList.add('hidden');
+                    }
                 }
             });
-        }
-
-        // This logic runs on page load (after initial render or refresh)
-        window.addEventListener('load', function() {
-            // Check if there is an image URL OR an error message.
-            // This is the equivalent of 'result-container.children.length > 0' for this page.
-            const hasOutput = "{% if image_url or error_message %}true{% else %}false{% endif %}" === "true";
-
-            if (hasOutput) {
-                if (loadingSpinner) {
-                    loadingSpinner.classList.add('hidden');
-                }
-                if (submitButton) {
-                    submitButton.classList.remove('hidden');
-                }
-                if (resultContainer) {
-                    resultContainer.classList.remove('hidden'); // Ensure results are visible
-                }
-                // If there's an error_message, it will already be visible as part of the page load,
-                // no need to explicitly show/hide it from JS here.
-            } else {
-                // No output (fresh page load), ensure everything is clean
-                if (loadingSpinner) {
-                    loadingSpinner.classList.add('hidden');
-                }
-                if (submitButton) {
-                    submitButton.classList.remove('hidden');
-                }
-                if (resultContainer) {
-                    resultContainer.classList.add('hidden'); // Hide result container if no output
-                }
-                if (errorAlert) {
-                    errorAlert.classList.add('hidden'); // Ensure error is hidden if no output
-                }
-            }
         });
-    });
-</script>
+    </script>
 {% endblock %}
