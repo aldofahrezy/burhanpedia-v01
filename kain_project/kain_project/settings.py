@@ -27,6 +27,8 @@ SECRET_KEY = 'django-insecure-$v2^b--)6gdkzye%x8+zh(_ydro3yp(&sq2-jm&a=o1405fdh3
 DEBUG = True
 
 ALLOWED_HOSTS = ['burhanpedia-v01-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://burhanpedia-v01-production.up.railway.app'] 
+
 
 # Application definition
 
