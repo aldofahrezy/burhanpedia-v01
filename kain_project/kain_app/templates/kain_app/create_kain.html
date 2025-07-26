@@ -3,125 +3,150 @@
 {% block title %}Generator Desain Batik AI{% endblock %}
 
 {% block content %}
-    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Generator Desain Batik AI</h1>
-    <p class="text-gray-600 mb-6">Ciptakan desain batik unik Anda sendiri dengan bantuan AI.</p>
+<h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Generator Desain Batik AI</h1>
+<p class="text-gray-600 mb-6">Ciptakan desain batik unik Anda sendiri dengan bantuan AI.</p>
 
-    {% if error_message %}
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
-            <strong class="font-bold">Error!</strong>
-            <span class="block sm:inline">{{ error_message }}</span>
-        </div>
-    {% endif %}
+{% if error_message %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert" id="error-alert">
+        <strong class="font-bold">Error!</strong>
+        <span class="block sm:inline">{{ error_message }}</span>
+    </div>
+{% endif %}
 
-    <form action="{% url 'kain_app:create_kain' %}" method="post" class="mb-8" id="batik-form">
-        {% csrf_token %}
-        <div class="grid grid-cols-1 gap-6">
-            <div class="">
-                <label for="batik" class="block text-gray-700 text-sm font-bold mb-2">Pilih Inspirasi Motif Batik:</label>
-                <select name="batik" id="batik" required class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    {% for option in batik_options %}
-                        <option value="{{ option }}">{{ option }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            
-            <div class="">
-                <label for="warna" class="block text-gray-700 text-sm font-bold mb-2">Pilih Palet Warna:</label>
-                <select name="warna" id="warna" required class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    {% for option in warna_options %}
-                        <option value="{{ option }}">{{ option }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="mb-4">
-                <label for="mockup" class="block text-gray-700 text-sm font-bold mb-2">Pilih Mockup:</label>
-                <select name="mockup" id="mockup" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="kain">Kain</option>
-                    <option value="baju">Baju</option>
-                    <option value="celana">Celana</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="mb-6">
-            <label for="bentuk_campuran" class="block text-gray-700 text-sm font-bold mb-2">Tambahkan Bentuk/Elemen Campuran:</label>
-            <input type="text" name="bentuk_campuran" id="bentuk_campuran" required placeholder="Contoh: bunga lotus, bentuk geometris, sulur tanaman" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+<form action="{% url 'kain_app:create_kain' %}" method="post" class="mb-8" id="batik-form">
+    {% csrf_token %}
+    <div class="grid grid-cols-1 gap-6">
+        <div class="">
+            <label for="batik" class="block text-gray-700 text-sm font-bold mb-2">Pilih Inspirasi Motif Batik:</label>
+            <select name="batik" id="batik" required class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                {% for option in batik_options %}
+                    <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+            </select>
         </div>
         
-        <div class="flex flex-col items-center gap-4">
-            <button type="submit" id="generate-button" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
-                ✨ Hasilkan Gambar
-            </button>
-            <a href="{% url 'kain_app:index' %}" class="w-full text-center inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800 py-2">
-                Kembali ke Menu
-            </a>
+        <div class="">
+            <label for="warna" class="block text-gray-700 text-sm font-bold mb-2">Pilih Palet Warna:</label>
+            <select name="warna" id="warna" required class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                {% for option in warna_options %}
+                    <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+            </select>
         </div>
-    </form>
 
-    <div id="loading-spinner" class="hidden flex flex-col items-center justify-center mb-8">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-        <p class="mt-4 text-gray-700 text-lg">Membuat desain batik Anda, mohon tunggu sebentar...</p>
+        <div class="mb-4">
+            <label for="mockup" class="block text-gray-700 text-sm font-bold mb-2">Pilih Mockup:</label>
+            <select name="mockup" id="mockup" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="kain">Kain</option>
+                <option value="baju">Baju</option>
+                <option value="celana">Celana</option>
+            </select>
+        </div>
     </div>
 
+    <div class="mb-6">
+        <label for="bentuk_campuran" class="block text-gray-700 text-sm font-bold mb-2">Tambahkan Bentuk/Elemen Campuran:</label>
+        <input type="text" name="bentuk_campuran" id="bentuk_campuran" required placeholder="Contoh: bunga lotus, bentuk geometris, sulur tanaman" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+    
+    <div class="flex flex-col items-center gap-4">
+        <button type="submit" id="generate-button" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
+            ✨ Hasilkan Gambar
+        </button>
+        <a href="{% url 'kain_app:index' %}" class="w-full text-center inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800 py-2">
+            Kembali ke Menu
+        </a>
+    </div>
+</form>
+
+<div id="loading-spinner" class="text-center my-6 hidden">
+    <svg class="animate-spin h-8 w-8 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    <p class="mt-2 text-gray-600 font-semibold text-xs">Membuat desain batik Anda... Proses ini mungkin memerlukan beberapa saat.</p>
+</div>
+
+<div id="result-container" class="mt-6 border-t pt-6">
+    {# The error_message is now displayed directly in the result-container if present #}
     {% if image_url %}
-        <div class="border-t pt-8 mt-8 overflow-hidden" id="result-section">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Hasil Desain Anda</h2>
-            <div class="bg-gray-200 p-4 rounded-lg shadow-inner">
-                <img src="{{ image_url }}" alt="Generated Batik Design" class="rounded-lg shadow-lg w-full max-w-lg mx-auto">
-            </div>
-            <div class="text-center mt-6">
-                <a href="{{ image_url }}" download="desain_batik_ai.jpg" target="_blank" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-block">
-                    ⬇️ Unduh Gambar (JPG)
-                </a>
-            </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">Hasil Desain Anda</h2>
+        <div class="bg-gray-200 p-4 rounded-lg shadow-inner">
+            <img src="{{ image_url }}" alt="Generated Batik Design" class="rounded-lg shadow-lg w-full max-w-lg mx-auto">
+        </div>
+        <div class="text-center mt-6">
+            <a href="{{ image_url }}" download="desain_batik_ai.jpg" target="_blank" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 inline-block">
+                ⬇️ Unduh Gambar (JPG)
+            </a>
         </div>
     {% endif %}
+</div>
 
 {% endblock %}
 
 {% block extra_js %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('batik-form');
-        const generateButton = document.getElementById('generate-button');
+        const uploadForm = document.getElementById('batik-form'); // Renamed to batik-form
+        const submitButton = document.getElementById('generate-button'); // Renamed to generate-button
         const loadingSpinner = document.getElementById('loading-spinner');
-        const resultSection = document.getElementById('result-section');
+        const resultContainer = document.getElementById('result-container');
+        const errorAlert = document.getElementById('error-alert'); // Added to target the error message div
 
-        form.addEventListener('submit', function() {
-            // Tampilkan spinner loading
-            loadingSpinner.classList.remove('hidden');
-            loadingSpinner.classList.add('flex'); // Pastikan display flex untuk centering
+        if (uploadForm) { // Ensure the form exists
+            uploadForm.addEventListener('submit', function(e) {
+                // Here, we don't need to check files.length since input type is not file
+                // and 'required' attribute handles empty fields.
 
-            // Nonaktifkan tombol untuk mencegah pengiriman ganda
-            generateButton.disabled = true;
-            generateButton.innerHTML = 'Memproses...'; // Ubah teks tombol
+                if (submitButton) {
+                    submitButton.classList.add('hidden');
+                }
+                if (loadingSpinner) {
+                    loadingSpinner.classList.remove('hidden');
+                }
+                if (resultContainer) {
+                    resultContainer.classList.add('hidden'); // Hide results on new submission
+                }
+                if (errorAlert) {
+                    errorAlert.classList.add('hidden'); // Hide error on new submission
+                }
+            });
+        }
 
-            // Opsional: Sembunyikan form atau buat kurang menonjol
-            form.style.opacity = '0.5';
-            form.style.pointerEvents = 'none';
+        // This logic runs on page load (after initial render or refresh)
+        window.addEventListener('load', function() {
+            // Check if there is an image URL OR an error message.
+            // This is the equivalent of 'result-container.children.length > 0' for this page.
+            const hasOutput = "{% if image_url or error_message %}true{% else %}false{% endif %}" === "true";
 
-            // Sembunyikan hasil sebelumnya jika ada
-            if (resultSection) {
-                resultSection.classList.add('hidden');
+            if (hasOutput) {
+                if (loadingSpinner) {
+                    loadingSpinner.classList.add('hidden');
+                }
+                if (submitButton) {
+                    submitButton.classList.remove('hidden');
+                }
+                if (resultContainer) {
+                    resultContainer.classList.remove('hidden'); // Ensure results are visible
+                }
+                // If there's an error_message, it will already be visible as part of the page load,
+                // no need to explicitly show/hide it from JS here.
+            } else {
+                // No output (fresh page load), ensure everything is clean
+                if (loadingSpinner) {
+                    loadingSpinner.classList.add('hidden');
+                }
+                if (submitButton) {
+                    submitButton.classList.remove('hidden');
+                }
+                if (resultContainer) {
+                    resultContainer.classList.add('hidden'); // Hide result container if no output
+                }
+                if (errorAlert) {
+                    errorAlert.classList.add('hidden'); // Ensure error is hidden if no output
+                }
             }
         });
-
-        // Jika halaman dimuat dengan image_url, berarti proses generate sudah selesai.
-        // Pastikan spinner tersembunyi dan tombol aktif kembali.
-        // Ini menangani kasus ketika pengguna kembali atau halaman di-reload setelah generate.
-        if (loadingSpinner.classList.contains('flex')) {
-            loadingSpinner.classList.remove('flex');
-            loadingSpinner.classList.add('hidden');
-        }
-        if (generateButton.disabled) {
-            generateButton.disabled = false;
-            generateButton.innerHTML = '✨ Hasilkan Gambar';
-        }
-        if (form.style.opacity === '0.5') {
-            form.style.opacity = '1';
-            form.style.pointerEvents = 'auto';
-        }
     });
 </script>
 {% endblock %}
