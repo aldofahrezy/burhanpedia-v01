@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -121,26 +122,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# kain_project/settings.py
-import os
-from dotenv import load_dotenv
-
-load_dotenv() # Muat variabel dari .env
-
-# ...
-
-# Ambil nilai DEBUG dari environment variable, default False jika tidak ada
-DEBUG = os.environ.get('DEBUG', 'False') == 'True' 
-
-# Ambil SECRET_KEY dari environment variable
-SECRET_KEY = os.environ.get('SECRET_KEY')
-
-# Konfigurasi ALLOWED_HOSTS untuk Render
-ALLOWED_HOSTS = []
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # ...
 STATIC_URL = 'static/'
