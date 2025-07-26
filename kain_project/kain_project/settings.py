@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-$v2^b--)6gdkzye%x8+zh(_ydro3yp(&sq2-jm&a=o1405fdh3
 # Atur DEBUG = False untuk produksi
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://burhanpedia-v01-production.up.railway.app/']
+ALLOWED_HOSTS = ['burhanpedia-v01-production.up.railway.app']
 
 # Application definition
 
