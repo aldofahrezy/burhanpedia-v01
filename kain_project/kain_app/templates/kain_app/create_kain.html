@@ -13,7 +13,7 @@
         </div>
     {% endif %}
 
-    <form action="{% url 'kain_app:create_kain' %}" method="post" class="mb-8">
+    <form action="{% url 'kain_app:create_kain' %}" method="post" class="mb-8" id="batik-form">
         {% csrf_token %}
         <div class="grid grid-cols-1 gap-6"> {# Changed to single column grid #}
             <div class="">
@@ -51,7 +51,7 @@
         </div>
         
         <div class="flex flex-col items-center gap-4"> {# Changed to flex-col for vertical stacking #}
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
+            <button type="submit" id="generate-button" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
                 ✨ Hasilkan Gambar
             </button>
             <a href="{% url 'kain_app:index' %}" class="w-full text-center inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800 py-2"> {# Added w-full and text-center for full width and centering #}
@@ -60,8 +60,14 @@
         </div>
     </form>
 
+    {# Loading Spinner/Message #}
+    <div id="loading-spinner" class="hidden flex flex-col items-center justify-center mb-8">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <p class="mt-4 text-gray-700 text-lg">Membuat desain batik Anda, mohon tunggu sebentar...</p>
+    </div>
+
     {% if image_url %}
-        <div class="border-t pt-8 mt-8 overflow-hidden"> {# Added overflow-hidden here #}
+        <div class="border-t pt-8 mt-8 overflow-hidden" id="result-section"> {# Added overflow-hidden here #}
             <h2 class="text-2xl font-bold text-gray-900 mb-4">Hasil Desain Anda</h2>
             <div class="bg-gray-200 p-4 rounded-lg shadow-inner">
                 <img src="{{ image_url }}" alt="Generated Batik Design" class="rounded-lg shadow-lg w-full max-w-lg mx-auto">
@@ -71,11 +77,53 @@
                     ⬇️ Unduh Gambar (JPG)
                 </a>
             </div>
-            <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-                <h3 class="font-semibold text-gray-700">Prompt yang Digunakan:</h3>
-                <p class="text-sm text-gray-600 italic mt-1">"{{ prompt }}"</p>
-            </div>
         </div>
     {% endif %}
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('batik-form');
+        const generateButton = document.getElementById('generate-button');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const resultSection = document.getElementById('result-section'); // Get the result section
+
+        form.addEventListener('submit', function() {
+            // Show the loading spinner
+            loadingSpinner.classList.remove('hidden');
+            loadingSpinner.classList.add('flex'); // Ensure flex display for centering
+
+            // Disable the button to prevent multiple submissions
+            generateButton.disabled = true;
+            generateButton.innerHTML = 'Memproses...'; // Change button text
+
+            // Optionally, hide the form or make it less prominent
+            form.style.opacity = '0.5';
+            form.style.pointerEvents = 'none';
+
+            // Hide previous results if any
+            if (resultSection) {
+                resultSection.classList.add('hidden');
+            }
+        });
+
+        // If the page loads with an image_url, it means the generation is complete
+        // and we should ensure the spinner is hidden and button is re-enabled.
+        // This handles cases where the user navigates back or the page reloads after generation.
+        if (loadingSpinner.classList.contains('flex')) {
+            loadingSpinner.classList.remove('flex');
+            loadingSpinner.classList.add('hidden');
+        }
+        if (generateButton.disabled) {
+            generateButton.disabled = false;
+            generateButton.innerHTML = '✨ Hasilkan Gambar';
+        }
+        if (form.style.opacity === '0.5') {
+            form.style.opacity = '1';
+            form.style.pointerEvents = 'auto';
+        }
+    });
+</script>
 {% endblock %}
